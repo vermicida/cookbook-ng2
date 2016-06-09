@@ -1,9 +1,8 @@
 import { Injectable } from "@angular/core";
-import { Http } from "@angular/http";
+import { Http, Headers, RequestOptions } from "@angular/http";
 import { Observable } from "rxjs/Observable";
 import "rxjs/add/operator/map";
 import { Receta } from "./receta";
-import { RequestOptionsArgs, Headers } from "@angular/http";
 
 @Injectable()
 export class RecetasService {
@@ -20,12 +19,12 @@ export class RecetasService {
 
     guardarReceta(receta : Receta) : Observable<Receta> {
 
-        var options = new RequestOptionsArgs();
-        options.headers = new Headers();
-        options.headers.append("Content-Type", "application/json");
+        var datos = JSON.stringify(receta);
+        var cabeceras = new Headers({ 'Content-Type': 'application/json' });
+        var opciones = new RequestOptions({ headers: cabeceras });
 
         return this._http
-            .post(this.endpoint, JSON.stringify(receta), options)
+            .post(this.endpoint, datos, opciones)
             .map(respuesta => respuesta.json());
     }
 }

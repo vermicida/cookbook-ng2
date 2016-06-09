@@ -2,6 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { HTTP_PROVIDERS } from "@angular/http";
 import { RecetasService } from "./recetas.service";
 import { Receta, Ingrediente } from "./receta";
+import { Router } from "@angular/router-deprecated";
 
 @Component({
     template: `
@@ -52,7 +53,9 @@ export class NuevaRecetaComponent implements OnInit {
     receta : Receta;
     ingrediente : Ingrediente;
 
-    constructor(private _recetasService : RecetasService) { }
+    constructor(
+        private _router : Router,
+        private _recetasService : RecetasService) { }
 
     ngOnInit() {
 
@@ -92,7 +95,7 @@ export class NuevaRecetaComponent implements OnInit {
         this._recetasService
             .guardarReceta(this.receta)
             .subscribe(
-                receta => console.log(receta),
+                receta => this._router.navigate(['MisRecetas']),
                 error => alert(error)
             );
     };
